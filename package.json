@@ -1,0 +1,196 @@
+{
+  "name": "codemap",
+  "displayName": "CodeMap",
+  "description": "CodeMap: visualize your project architecture, data flow, class diagrams, and hotspots with optional AI insights",
+  "version": "0.0.11",
+  "author": {
+    "name": "Aditya Mali",
+    "url": "https://adityamali.com",
+    "email": "hello@adityamali.com"
+  },
+  "publisher": "adityamali",
+  "engines": {
+    "vscode": "^1.103.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "architecture",
+    "visualization",
+    "graphs",
+    "AI",
+    "diagrams",
+    "heatmap"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "views": {
+      "codemap": [
+        {
+          "id": "codemap.sidebar",
+          "name": "CodeMap",
+          "type": "webview",
+          "icon": "resources/codemap.svg"
+        },
+        {
+          "id": "projectStructure",
+          "name": "Project Structure",
+          "icon": "resources/codemap.svg"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codemap",
+          "title": "CodeMap",
+          "icon": "resources/codemap.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "codemap.generateArchitecture",
+        "title": "Generate Architecture Diagram",
+        "category": "CodeMap"
+      },
+      {
+        "command": "codemap.generateDataFlow",
+        "title": "Generate Data Flow Diagram",
+        "category": "CodeMap"
+      },
+      {
+        "command": "codemap.generateClassDiagram",
+        "title": "Generate Class Diagram",
+        "category": "CodeMap"
+      },
+      {
+        "command": "codemap.generateHeatmap",
+        "title": "Generate Complexity Heatmap",
+        "category": "CodeMap"
+      },
+      {
+        "command": "codemap.authenticate",
+        "title": "Authenticate with OpenAI",
+        "category": "CodeMap"
+      },
+      {
+        "command": "codemap.analyzeWithAI",
+        "title": "Analyze Architecture with AI",
+        "category": "CodeMap"
+      },
+      {
+        "command": "codemap.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "codemap.refresh",
+          "when": "view == codemap.sidebar",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "codemap.generateArchitecture"
+        },
+        {
+          "command": "codemap.generateDataFlow"
+        },
+        {
+          "command": "codemap.generateClassDiagram"
+        },
+        {
+          "command": "codemap.generateHeatmap"
+        },
+        {
+          "command": "codemap.analyzeWithAI"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "CodeMap",
+      "properties": {
+        "codemap.openaiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key for AI-powered analysis"
+        },
+        "codemap.includeTests": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include test files in architecture analysis"
+        },
+        "codemap.excludePatterns": {
+          "type": "array",
+          "default": [
+            "node_modules",
+            "dist",
+            ".git"
+          ],
+          "description": "File patterns to exclude from analysis"
+        },
+        "codemap.maxDepth": {
+          "type": "number",
+          "default": 10,
+          "description": "Maximum dependency depth to analyze"
+        },
+        "codemap.theme": {
+          "type": "string",
+          "enum": [
+            "dark",
+            "light",
+            "auto"
+          ],
+          "default": "auto",
+          "description": "Visualization theme"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.3",
+    "@babel/preset-env": "^7.28.3",
+    "@types/jest": "^30.0.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.103.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.1",
+    "eslint": "^9.32.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.9.2",
+    "webpack": "^5.101.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "cytoscape": "^3.26.0",
+    "cytoscape-dagre": "^2.5.0",
+    "d3": "^7.8.5",
+    "dagre": "^0.8.5",
+    "heatmap.js": "^2.0.5",
+    "openai": "^4.20.0",
+    "vis-network": "^10.0.1"
+  }
+}
